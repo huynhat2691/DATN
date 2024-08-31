@@ -11,7 +11,6 @@ import {
 import { useRef, useState } from "react";
 import axios from "axios";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { toast } from "react-toastify";
 
 const AdminHeader = () => {
   const { user } = useSelector((state) => state.user);
@@ -33,18 +32,17 @@ const AdminHeader = () => {
     }, 300);
   };
 
-  const logoutHandler = async () => {
-    try {
-      const res = await axios.get(`${server}/user/logout`, {
-        withCredentials: true,
+  const logoutHandler = () => {
+    axios
+      .get(`${server}/user/logout`, { withCredentials: true })
+      .then((res) => {
+        console.log(res.data.message);
+        window.location.reload(true);
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
       });
-      console.log(res.data.message);
-      toast.success("Đăng xuất thành công!");
-      navigate("/login");
-    } catch (err) {
-      console.error("Lỗi khi đăng xuất:", err);
-      toast.error(err.response?.data?.message || "Đăng xuất thất bại");
-    }
   };
 
   return (

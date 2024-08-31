@@ -26,24 +26,17 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../../ui/tooltip";
-import { toast } from "react-toastify";
 
 const DashboardHeader = () => {
   const { seller } = useSelector((state) => state.seller);
   const navigate = useNavigate();
 
   const logoutHandler = async () => {
-    try {
-      const res = await axios.get(`${server}/shop/logout-shop`, {
-        withCredentials: true,
-      });
-      console.log(res.data.message);
-      toast.success("Đăng xuất thành công!");
-      navigate("/login");
-    } catch (err) {
-      console.error("Lỗi khi đăng xuất:", err);
-      toast.error(err.response?.data?.message || "Đăng xuất thất bại");
-    }
+    axios.get(`${server}/shop/logout-shop`, {
+      withCredentials: true,
+    });
+    window.location.reload();
+    navigate("/shop-login");
   };
 
   const getAvatarSrc = (avatar) => {

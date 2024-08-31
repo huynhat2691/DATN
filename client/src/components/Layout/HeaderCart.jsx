@@ -28,7 +28,6 @@ import { Input } from "../ui/input";
 import Fuse from "fuse.js";
 import debounce from "lodash.debounce";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { toast } from "react-toastify";
 
 const HeaderCart = ({ isCart = true }) => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -80,18 +79,17 @@ const HeaderCart = ({ isCart = true }) => {
     };
   }, []);
 
-  const logoutHandler = async () => {
-    try {
-      const res = await axios.get(`${server}/user/logout`, {
-        withCredentials: true,
+  const logoutHandler = () => {
+    axios
+      .get(`${server}/user/logout`, { withCredentials: true })
+      .then((res) => {
+        console.log(res.data.message);
+        window.location.reload(true);
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
       });
-      console.log(res.data.message);
-      toast.success("Đăng xuất thành công!");
-      navigate("/login");
-    } catch (err) {
-      console.error("Lỗi khi đăng xuất:", err);
-      toast.error(err.response?.data?.message || "Đăng xuất thất bại");
-    }
   };
 
   // Cấu hình Fuse.js
