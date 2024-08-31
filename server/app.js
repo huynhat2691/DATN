@@ -16,11 +16,11 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
-app.use("/", express.static(path.join(__dirname, "uploads")));
+app.use("/", express.static(path.join(__dirname, "./uploads")));
 
 app.use(
   cors({
-    origin: ["https://datnclient-huynhat2691s-projects.vercel.app/", "*"],
+    origin: "https://datnclient-huynhat2691s-projects.vercel.app",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })

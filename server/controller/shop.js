@@ -42,7 +42,7 @@ router.post("/create-shop", async (req, res, next) => {
 
     const activationToken = createActivationToken(seller);
 
-    const activationUrl = `http://localhost:5173/seller/activation/${activationToken}`;
+    const activationUrl = `https://datnclient-huynhat2691s-projects.vercel.app/seller/activation/${activationToken}`;
 
     try {
       await sendMail({
@@ -122,7 +122,9 @@ router.post(
       const { email, password } = req.body;
 
       if (!email || !password) {
-        return next(new ErrorHandler("Vui lòng cung cấp đầy đủ thông tin!", 400));
+        return next(
+          new ErrorHandler("Vui lòng cung cấp đầy đủ thông tin!", 400)
+        );
       }
 
       const seller = await Shop.findOne({ email }).select("+password");
