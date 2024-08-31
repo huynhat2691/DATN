@@ -20,7 +20,7 @@ app.use("/", express.static(path.join(__dirname, "uploads")));
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "*"],
+    origin: ["https://datnclient-huynhat2691s-projects.vercel.app/", "*"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
