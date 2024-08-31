@@ -85,7 +85,7 @@ const Header = ({ activeHeading }) => {
       .then((res) => {
         console.log(res.data.message);
         window.location.reload(true);
-        navigate("/");
+        navigate("/login");
       })
       .catch((err) => {
         console.log(err.response.data.message);
