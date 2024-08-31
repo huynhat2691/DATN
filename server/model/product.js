@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 
 const classificationSchema = new mongoose.Schema(
@@ -70,7 +69,11 @@ const productSchema = new mongoose.Schema({
   },
   images: [
     {
-      type: String,
+      data: String,
+      contentType: {
+        type: String,
+        enum: ["image/jpeg", "image/jpg", "image/png", "image/webp"],
+      },
     },
   ],
   reviews: [

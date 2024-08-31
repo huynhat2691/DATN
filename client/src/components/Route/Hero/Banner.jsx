@@ -130,6 +130,7 @@ const Banner = () => {
                 src={`${backend_url}${banner.image}`}
                 alt={banner.title}
                 className="w-full h-[300px] object-cover rounded-md border"
+                loading="lazy"
               />
               <div className="absolute bottom-5 left-5 text-black">
                 <h2>{banner.title}</h2>

@@ -3,7 +3,6 @@ const router = express.Router();
 const Product = require("../model/product");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
-const { upload } = require("../multer");
 const Shop = require("../model/shop");
 const Order = require("../model/order");
 const {
@@ -11,12 +10,16 @@ const {
   isAuthenticated,
   isAdminAuthenticated,
 } = require("../middleware/auth");
-const fs = require("fs");
+
+// Hàm helper để xác định loại ảnh từ base64
+function getImageType(base64String) {
+  const match = base64String.match(/^data:image\/(\w+);base64,/);
+  return match ? match[1] : null;
+}
 
 // add product
 router.post(
   "/add-product",
-  upload.array("images"),
   catchAsyncErrors(async (req, res, next) => {
     try {
       const shopId = req.body.shopId;
@@ -24,11 +27,22 @@ router.post(
       if (!shop) {
         return next(new ErrorHandler("Không tìm thấy ID shop", 404));
       } else {
-        const files = req.files;
-        const imageUrls = files.map((file) => `${file.filename}`);
         const productData = req.body;
-        productData.images = imageUrls;
         productData.shop = shop;
+
+        // Xử lý hình ảnh base64
+        if (productData.images && Array.isArray(productData.images)) {
+          productData.images = productData.images.map((image) => {
+            const imageType = getImageType(image);
+            if (!imageType || !['jpg', 'jpeg', 'png', 'webp'].includes(imageType)) {
+              throw new Error('Định dạng ảnh không hợp lệ');
+            }
+            return {
+              data: image,
+              contentType: `image/${imageType}`
+            };
+          });
+        }
 
         // Xử lý dữ liệu phân loại
         if (productData.hasClassifications === "true") {

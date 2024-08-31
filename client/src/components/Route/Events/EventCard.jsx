@@ -58,6 +58,7 @@ const EventCard = ({ data }) => {
           src={`${backend_url}${data?.images[0]}`}
           alt=""
           className="size-[190px] object-cover rounded-t-md transition-transform duration-300 group-hover:scale-110"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
       </Link>

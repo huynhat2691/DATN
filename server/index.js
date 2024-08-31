@@ -1,10 +1,6 @@
-// config
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({ path: "config/.env" });
-}
-
 const app = require("./app");
 const connectDB = require("./db/Database");
+const cloudinary = require("cloudinary");
 
 // handling uncaught exceptions
 process.on("uncaughtException", (err) => {
@@ -13,8 +9,20 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
+// config
+if (process.env.NODE_ENV !== "PRODUCTION") {
+  require("dotenv").config({ path: "config/.env" });
+}
+
 // connect db
 connectDB().then(() => console.log("Database connected successfully!"))
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
+
 .catch((err) => {
   console.log(`Database connection failed: ${err.message}`);
   // Dừng ứng dụng nếu không thể kết nối với DB để tránh lỗi tiếp theo

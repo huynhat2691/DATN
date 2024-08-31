@@ -1,7 +1,6 @@
 const express = require("express");
 const path = require("path");
 const router = express.Router();
-const { upload } = require("../multer");
 const User = require("../model/user");
 const fs = require("fs");
 const jwt = require("jsonwebtoken");
@@ -10,8 +9,8 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const sendMail = require("../utils/sendMail");
 const sendToken = require("../utils/jwtToken");
 const { isAuthenticated, isAdminAuthenticated } = require("../middleware/auth");
-
 const nodemailerTemplate = require("../utils/nodemailerTemplate");
+const cloudinary = require("cloudinary");
 
 router.post("/create-user", async (req, res, next) => {
   try {
