@@ -1,3 +1,5 @@
-export const server = "http://localhost:5000/api/v2";
+export const server =
+  "https://datnserver-7d7s4n98q-huynhat2691s-projects.vercel.app/api/v2";
 
-export const backend_url = "http://localhost:5000/";
+export const backend_url =
+  "https://datnserver-7d7s4n98q-huynhat2691s-projects.vercel.app/";
