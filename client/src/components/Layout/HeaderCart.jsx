@@ -204,11 +204,17 @@ const HeaderCart = ({ isCart = true }) => {
                     <MapPin size={18} />
                     <p className="mx-1">Giao đến:</p>
                   </div>
-                  <p className="underline">
-                    {formatAddressPart(user?.addresses[0].ward)},{" "}
-                    {formatAddressPart(user?.addresses[0].district)},{" "}
-                    {formatAddressPart(user?.addresses[0].province)}
-                  </p>
+                  {user?.addresses[0]?.ward &&
+                  user?.addresses[0]?.district &&
+                  user?.addresses[0]?.province ? (
+                    <p className="underline">
+                      {formatAddressPart(user.addresses[0].ward)},{" "}
+                      {formatAddressPart(user.addresses[0].district)},{" "}
+                      {formatAddressPart(user.addresses[0].province)}
+                    </p>
+                  ) : (
+                    <p className="underline">...</p>
+                  )}
                 </Link>
               ) : (
                 <Link to="/login" className="flex items-center text-[14px]">
