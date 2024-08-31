@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { deleteEvent, getAllEventsShop } from "../../redux/actions/event";
@@ -29,16 +29,21 @@ const AllEvents = () => {
   const { seller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8; // Số sự kiện trên mỗi trang
+  const itemsPerPage = 8;
 
   useEffect(() => {
     dispatch(getAllEventsShop(seller._id));
   }, [dispatch, seller._id]);
 
-  const handleDelete = (id) => {
-    dispatch(deleteEvent(id));
-    window.location.reload();
-  };
+  const handleDelete = useCallback(
+    (id) => {
+      dispatch(deleteEvent(id)).then(() => {
+        // Sau khi xóa thành công, cập nhật lại danh sách sự kiện
+        dispatch(getAllEventsShop(seller._id));
+      });
+    },
+    [dispatch, seller._id]
+  );
 
   if (isLoading) {
     return (

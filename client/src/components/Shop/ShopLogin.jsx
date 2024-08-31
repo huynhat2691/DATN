@@ -12,11 +12,10 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
 const ShopLogin = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
-
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,7 +34,6 @@ const ShopLogin = () => {
       .then((res) => {
         console.log(res.data);
         navigate("/dashboard");
-        window.location.reload(true);
       })
       .catch((err) => {
         toast.error(err.response.data.message);

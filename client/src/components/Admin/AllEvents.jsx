@@ -33,18 +33,27 @@ const AllEvents = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios
-      .get(`${server}/event/admin-get-all-events`, {
-        withCredentials: true,
-      })
-      .then((res) => {
+    const fetchEvents = async () => {
+      try {
+        const res = await axios.get(`${server}/event/admin-get-all-events`, {
+          withCredentials: true,
+        });
         setEvents(res.data.events);
-      });
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+
+    fetchEvents();
   }, []);
 
-  const handleDelete = (id) => {
-    dispatch(deleteEvent(id));
-    window.location.reload();
+  const handleDelete = async (id) => {
+    try {
+      await dispatch(deleteEvent(id));
+      setEvents((prevEvents) => prevEvents.filter((event) => event._id !== id));
+    } catch (error) {
+      console.error("Error deleting event:", error);
+    }
   };
 
   if (!events || events.length === 0) {

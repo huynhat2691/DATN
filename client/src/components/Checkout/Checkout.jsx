@@ -163,7 +163,7 @@ const Checkout = () => {
       setAdminCoupons(res.data.coupons);
     } catch (error) {
       console.error("Error fetching admin coupons:", error);
-      toast.error("Không thể tải mã giảm giá. Vui lòng thử lại.");
+      toast.error("Không thể tải mã giảm giá của admin. Vui lòng thử lại.");
     }
   };
 
@@ -411,14 +411,13 @@ const Checkout = () => {
 
       if (response.data.success) {
         setOpen(false);
-        navigate("/order/success");
         toast.success("Đơn hàng đã đặt thành công");
-
         // Remove only the selected items from localStorage
         removeSelectedItemsFromCart();
-
         localStorage.removeItem("selectedCartItems");
-        window.location.reload();
+        navigate("/order/success", {
+          replace: true,
+        });
       } else {
         toast.error("Có lỗi xảy ra khi đặt hàng");
       }

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { backend_url, server } from "../../../server";
 import {
   ChevronDown,
@@ -26,15 +26,24 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../../ui/tooltip";
+import { toast } from "react-toastify";
 
 const DashboardHeader = () => {
   const { seller } = useSelector((state) => state.seller);
+  const navigate = useNavigate();
 
   const logoutHandler = async () => {
-    axios.get(`${server}/shop/logout-shop`, {
-      withCredentials: true,
-    });
-    window.location.reload();
+    try {
+      const res = await axios.get(`${server}/shop/logout-shop`, {
+        withCredentials: true,
+      });
+      console.log(res.data.message);
+      toast.success("Đăng xuất thành công!");
+      navigate("/login");
+    } catch (err) {
+      console.error("Lỗi khi đăng xuất:", err);
+      toast.error(err.response?.data?.message || "Đăng xuất thất bại");
+    }
   };
 
   const getAvatarSrc = (avatar) => {

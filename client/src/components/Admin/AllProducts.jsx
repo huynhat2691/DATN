@@ -32,18 +32,30 @@ const AllProducts = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios
-      .get(`${server}/product/admin-get-all-products`, {
-        withCredentials: true,
-      })
-      .then((res) => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get(
+          `${server}/product/admin-get-all-products`,
+          {
+            withCredentials: true,
+          }
+        );
         setData(res.data.products);
-      });
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
-  const handleDelete = (id) => {
-    dispatch(deleteProduct(id));
-    window.location.reload();
+  const handleDelete = async (id) => {
+    try {
+      await dispatch(deleteProduct(id));
+      setData((prevData) => prevData.filter((product) => product._id !== id));
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
   };
 
   const totalPages = Math.ceil(data.length / itemsPerPage);

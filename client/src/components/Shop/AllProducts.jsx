@@ -22,6 +22,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../ui/pagination";
+import { toast } from "react-toastify";
 
 const AllProducts = () => {
   const { products, isLoading } = useSelector((state) => state.product);
@@ -29,14 +30,25 @@ const AllProducts = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8; // Số sản phẩm trên mỗi trang
+  const [localProducts, setLocalProducts] = useState([]);
 
   useEffect(() => {
     dispatch(getAllProductsShop(seller._id));
   }, [dispatch, seller._id]);
 
-  const handleDelete = (id) => {
-    dispatch(deleteProduct(id));
-    window.location.reload();
+  useEffect(() => {
+    setLocalProducts(products);
+  }, [products]);
+
+  const handleDelete = async (id) => {
+    try {
+      await dispatch(deleteProduct(id));
+      // Cập nhật trạng thái local sau khi xóa thành công
+      setLocalProducts(prevProducts => prevProducts.filter(product => product._id !== id));
+      toast.success("Sản phẩm đã được xóa thành công");
+    } catch (error) {
+      toast.error("Có lỗi xảy ra khi xóa sản phẩm");
+    }
   };
 
   if (isLoading) {
@@ -60,10 +72,10 @@ const AllProducts = () => {
     );
   }
 
-  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const totalPages = Math.ceil(localProducts.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentProducts = products.slice(startIndex, endIndex);
+  const currentProducts = localProducts.slice(startIndex, endIndex);
 
   return (
     <Card className="w-full mx-auto m-4 flex flex-col h-[calc(100vh-6rem)]">
