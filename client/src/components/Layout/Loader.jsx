@@ -3,7 +3,7 @@ import animationData from "../../assets/animations/Animation - 1723026685920.jso
 
 const Loader = () => {
   const defaultOptions = {
-    loop: false,
+    loop: true,
     autoplay: true,
     animationData: animationData,
     rendererSettings: {
