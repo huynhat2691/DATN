@@ -59,7 +59,6 @@ const AddProduct = () => {
     }
     if (success) {
       toast.success("Sản phẩm đã được thêm thành công");
-      navigate(0);
       navigate("/dashboard/products");
     }
   }, [error, success, navigate]);

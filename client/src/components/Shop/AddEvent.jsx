@@ -76,7 +76,6 @@ const AddEvent = () => {
     }
     if (success) {
       toast.success("Flash sale đã được thêm thành công");
-      navigate(0);
       navigate("/dashboard/events");
     }
   }, [error, success, navigate]);
