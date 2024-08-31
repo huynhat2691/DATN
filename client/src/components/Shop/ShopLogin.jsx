@@ -34,6 +34,7 @@ const ShopLogin = () => {
       .then((res) => {
         console.log(res.data);
         navigate("/dashboard");
+        window.location.reload(true);
       })
       .catch((err) => {
         toast.error(err.response.data.message);
@@ -42,7 +43,7 @@ const ShopLogin = () => {
 
   return (
     <>
-      <HeaderLoginShop isRegisterShop={false}/>
+      <HeaderLoginShop isRegisterShop={false} />
       <div className="h-[600px] bg-[#27b3e2] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="mx-auto">
           <div className="bg-white py-8 w-[400px] min-h-[480px] px-4 shadow sm:rounded-lg sm:px-10">
@@ -112,14 +113,13 @@ const ShopLogin = () => {
                 </div>
               </div>
               <div>
-                <Button
-                  type="submit"
-                  className="w-full duration-300"
-                >
+                <Button type="submit" className="w-full duration-300">
                   Đăng nhập
                 </Button>
               </div>
-              <div className={`text-[14px] w-full flex items-center justify-center `}>
+              <div
+                className={`text-[14px] w-full flex items-center justify-center `}
+              >
                 <h4>Bạn mới biết đến eCommUnity?</h4>
                 <Link to="/shop-create" className="text-[#27b3e2] pl-2">
                   Đăng ký
