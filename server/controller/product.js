@@ -23,7 +23,7 @@ router.post(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const shopId = req.body.shopId;
-      const shop = await Shop.findById(shopId);
+      const shop = await Shop.findOne({ _id: shopId });
       if (!shop) {
         return next(new ErrorHandler("Không tìm thấy ID shop", 404));
       } else {
