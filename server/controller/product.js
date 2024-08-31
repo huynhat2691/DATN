@@ -22,8 +22,11 @@ router.post(
   "/add-product",
   catchAsyncErrors(async (req, res, next) => {
     try {
+      console.log("Request body:", req.body);
       const shopId = req.body.shopId;
-      const shop = await Shop.findOne({ _id: shopId });
+      console.log("ShopId:", shopId);
+      const shop = await Shop.findById(shopId);
+      console.log("Shop found:", shop);
       if (!shop) {
         return next(new ErrorHandler("Không tìm thấy ID shop", 404));
       } else {
