@@ -34,7 +34,8 @@ const Login = () => {
       .then((res) => {
         console.log(res.data);
         // window.location.reload(true);
-        navigate(0);
+        // navigate(0);
+        navigate("/");
       })
       .catch((err) => {
         toast.error(err.response.data.message);
